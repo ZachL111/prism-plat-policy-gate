@@ -1,68 +1,40 @@
 # prism-plat-policy-gate
 
-`prism-plat-policy-gate` treats platform engineering as a local verification problem. The Java implementation is intentionally narrow, but the fixtures and notes make the behavior explicit.
+`prism-plat-policy-gate` keeps a focused Java implementation around platform engineering. The project goal is to package a Java local lab for policy analysis with layout fixtures, stable geometry snapshots, and documented operating limits.
 
-## Prism Plat Policy Gate Checkpoints
+## Why It Exists
 
-Treat the compact fixture as the contract and the extended examples as a scratchpad. The code should stay boring enough that a change in behavior is obvious from the test output.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how rollout width and route drift should influence a review result.
 
-## What This Is For
+## Prism Plat Policy Gate Review Notes
 
-This is not a wrapper around a service. It is a self-contained project that shows how the model behaves when demand, capacity, latency, risk, and weight move in different directions.
+The first comparison I would make is `quota pressure` against `rollout width` because it shows where the rule is most opinionated.
+
+## Features
+
+- `fixtures/domain_review.csv` adds cases for rollout width and quota pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/prism-plat-policy-walkthrough.md` walks through the case spread.
+- The Java code includes a review path for `quota pressure` and `rollout width`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
 ## Architecture Notes
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The Java implementation uses a compact package layout and direct assertion checks.
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
 
-## Case Study
+The Java code keeps the review rule close to the tests.
 
-`examples/extended_cases.csv` adds six named cases. I kept the names plain so failures are easy to read in a terminal: baseline, pressure, surge, degraded, recovery, and boundary.
-
-## Useful Pieces
-
-- Uses fixture data to keep route policy changes visible in code review.
-- Includes extended examples for rollout constraints, including `surge` and `degraded`.
-- Documents environment checks tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-
-## Tooling
-
-Install Java and run the commands from the repository root. The project does not need credentials or a hosted service.
-
-## Quality Gate
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Project Layout
-
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-
-## Scope
-
-The examples cover useful edges, not every edge. A larger version would add malformed-input tests, richer reports, and deeper domain parsers.
-
-## Expansion Ideas
-
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add a loader for `examples/extended_cases.csv` and promote selected cases into the language test suite.
-- Add a short report command that prints the score breakdown for a single scenario.
-- Add one more platform engineering fixture that focuses on a malformed or borderline input.
-
-## Local Workflow
+## Usage
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Tests
+
+The check exercises the source code and the review fixture. `stress` is the high score at 185; `baseline` is the low score at 165.
+
+## Limitations And Roadmap
+
+This remains a local project with deterministic fixtures. It does not depend on credentials, hosted services, or live data. Future work should add richer malformed inputs before widening the public API.

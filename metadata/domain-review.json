@@ -1,0 +1,73 @@
+{
+  "repo": "prism-plat-policy-gate",
+  "language": "Java",
+  "category": "Platform engineering",
+  "goal": "Package a Java local lab for policy analysis with layout fixtures, stable geometry snapshots, and documented operating limits.",
+  "review_model": {
+    "terms": [
+      "rollout width",
+      "quota pressure",
+      "route drift",
+      "secret scope"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "rollout width",
+      "signal": 40,
+      "slack": 39,
+      "drag": 15,
+      "confidence": 91,
+      "score": 165,
+      "lane": "ship"
+    },
+    {
+      "name": "stress",
+      "focus": "quota pressure",
+      "signal": 68,
+      "slack": 43,
+      "drag": 25,
+      "confidence": 81,
+      "score": 185,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "route drift",
+      "signal": 74,
+      "slack": 34,
+      "drag": 17,
+      "confidence": 54,
+      "score": 185,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "secret scope",
+      "signal": 73,
+      "slack": 27,
+      "drag": 25,
+      "confidence": 84,
+      "score": 182,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "rollout width",
+      "signal": 60,
+      "slack": 27,
+      "drag": 14,
+      "confidence": 79,
+      "score": 184,
+      "lane": "ship"
+    }
+  ]
+}
