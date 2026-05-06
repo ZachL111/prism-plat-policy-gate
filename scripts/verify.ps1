@@ -64,3 +64,9 @@ java -cp build/classes io.portfolio.PolicyTest
 java -cp build/classes io.portfolio.DomainReviewTest
 
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-prism-plat-policy-detail.ps1
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-prism-plat-policy-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-prism-plat-policy-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
